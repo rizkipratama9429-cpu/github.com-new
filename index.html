@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Tugas — Project Belanin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <h1>Daftar Tugas</h1>
+      <p class="app__subtitle">Project Belanin</p>
+    </header>
+
+    <form class="task-form" id="task-form">
+      <input
+        type="text"
+        id="task-input"
+        class="task-form__input"
+        placeholder="Tulis tugas baru..."
+        autocomplete="off"
+        maxlength="120"
+        aria-label="Tugas baru"
+      />
+      <button type="submit" class="task-form__button">Tambah</button>
+    </form>
+
+    <div class="toolbar">
+      <div class="filters" id="filters" role="group" aria-label="Filter tugas">
+        <button class="filters__btn is-active" type="button" data-filter="semua">Semua</button>
+        <button class="filters__btn" type="button" data-filter="aktif">Aktif</button>
+        <button class="filters__btn" type="button" data-filter="selesai">Selesai</button>
+      </div>
+      <span class="counter" id="counter">0 tugas tersisa</span>
+    </div>
+
+    <ul class="tasks" id="tasks"></ul>
+
+    <p class="empty" id="empty">Belum ada tugas. Tambahkan satu di atas!</p>
+
+    <footer class="app__footer">
+      <button class="link" id="clear-completed" type="button" hidden>Hapus yang selesai</button>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
