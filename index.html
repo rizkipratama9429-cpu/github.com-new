@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,8 +9,17 @@
 <body>
   <main class="app">
     <header class="app__header">
-      <h1>Daftar Tugas</h1>
-      <p class="app__subtitle">Project Belanin</p>
+      <div>
+        <h1>Daftar Tugas</h1>
+        <p class="app__subtitle">Project Belanin</p>
+      </div>
+      <button
+        class="theme-toggle"
+        id="theme-toggle"
+        type="button"
+        aria-label="Ganti tema"
+        title="Ganti tema"
+      >🌙</button>
     </header>
 
     <form class="task-form" id="task-form">
@@ -23,6 +32,12 @@
         maxlength="120"
         aria-label="Tugas baru"
       />
+      <input
+        type="date"
+        id="task-due"
+        class="task-form__due"
+        aria-label="Tenggat (opsional)"
+      />
       <button type="submit" class="task-form__button">Tambah</button>
     </form>
 
@@ -34,6 +49,8 @@
       </div>
       <span class="counter" id="counter">0 tugas tersisa</span>
     </div>
+
+    <p class="hint">Tip: klik ganda teks untuk mengubah, atau seret untuk mengurutkan.</p>
 
     <ul class="tasks" id="tasks"></ul>
 

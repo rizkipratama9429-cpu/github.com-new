@@ -29,11 +29,15 @@ Tanpa build step dan tanpa dependensi — cukup buka file di browser:
 ### Fitur "Daftar Tugas"
 
 - Tambah tugas lewat tombol **Tambah** atau tombol **Enter**
+- Tenggat waktu opsional; tugas yang lewat tenggat ditandai merah
 - Tandai tugas selesai dengan checkbox
+- Ubah tugas langsung di tempat: klik ganda pada teks (Enter menyimpan, Esc membatalkan)
+- Urutkan ulang tugas dengan seret-dan-lepas (drag and drop)
 - Hapus tugas satu per satu
 - Filter: **Semua / Aktif / Selesai**
 - Penghitung tugas tersisa
 - Tombol **Hapus yang selesai** untuk membersihkan tugas yang selesai
+- Tombol tema terang/gelap (🌙/☀️) yang tersimpan di browser
 - Data tersimpan otomatis di browser lewat `localStorage`
 - Tampilan responsif untuk layar kecil
 
