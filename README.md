@@ -6,24 +6,29 @@ Berisi dua bagian kecil:
 
 1. **`halo.py`** — skrip Python sederhana untuk menyapa pengguna.
 2. **Daftar Tugas** — aplikasi web interaktif untuk mencatat tugas, dibangun
-   dengan vanilla JavaScript modern (ES modules) + Vite dan CSS modern
-   (`@layer`, nesting, container queries).
+   dengan **TypeScript** + Vite dan CSS modern (`@layer`, nesting, container
+   queries), lengkap dengan uji otomatis (Vitest).
 
 ## Struktur Proyek
 
 ```
 Project Belanin/
-├── index.html         # Halaman "Daftar Tugas" (entry Vite)
+├── index.html          # Halaman "Daftar Tugas" (entry Vite)
 ├── src/
-│   ├── main.js        # Titik masuk: menyambungkan state, DOM, localStorage
-│   ├── render.js      # Lapisan tampilan (state -> DOM)
-│   ├── tasks.js       # Logika murni daftar tugas (immutable, tanpa DOM)
-│   ├── storage.js     # Pembungkus localStorage
-│   ├── utils.js       # Utilitas ID & tanggal
-│   └── style.css      # CSS modern (@layer, nesting, container queries)
-├── vite.config.js     # Konfigurasi Vite + Lightning CSS
-├── package.json       # Skrip & dependensi
-├── halo.py            # Skrip sapaan Python sederhana
+│   ├── main.ts         # Titik masuk: menyambungkan state, DOM, localStorage
+│   ├── render.ts       # Lapisan tampilan (state -> DOM)
+│   ├── tasks.ts        # Logika murni daftar tugas (immutable, tanpa DOM)
+│   ├── storage.ts      # Pembungkus localStorage
+│   ├── utils.ts        # Utilitas ID & tanggal
+│   ├── types.ts        # Tipe bersama (Task, Filter, Theme)
+│   ├── style.css       # CSS modern (@layer, nesting, container queries)
+│   ├── tasks.test.ts   # Uji logika murni
+│   ├── render.test.ts  # Uji lapisan tampilan (jsdom)
+│   └── main.test.ts    # Uji integrasi wiring aplikasi
+├── vite.config.ts      # Konfigurasi Vite + Lightning CSS + Vitest
+├── tsconfig.json       # Konfigurasi TypeScript
+├── package.json        # Skrip & dependensi
+├── halo.py             # Skrip sapaan Python sederhana
 ├── .gitignore
 └── README.md
 ```
@@ -40,9 +45,11 @@ npm install
 Lalu:
 
 ```bash
-npm run dev      # server pengembangan (buka di browser otomatis)
-npm run build    # hasil produksi ke folder dist/
-npm run preview  # cek hasil build secara lokal
+npm run dev        # server pengembangan (buka di browser otomatis)
+npm run build      # hasil produksi ke folder dist/
+npm run preview    # cek hasil build secara lokal
+npm run typecheck  # periksa tipe TypeScript
+npm test           # jalankan seluruh uji (Vitest)
 ```
 
 ### Fitur "Daftar Tugas"

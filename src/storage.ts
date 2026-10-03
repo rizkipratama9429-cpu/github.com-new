@@ -3,6 +3,7 @@
  * (mis. saat browser memblokir penyimpanan atau JSON rusak).
  * @module storage
  */
+import type { Task, Theme } from "./types";
 
 /** Kunci penyimpanan yang dipakai aplikasi. */
 export const KEYS = Object.freeze({
@@ -10,27 +11,20 @@ export const KEYS = Object.freeze({
   theme: "project-belanin.theme",
 });
 
-/**
- * Membaca daftar tugas tersimpan.
- * @returns {Array<object>}
- */
-export const loadTasks = () => {
+/** Membaca daftar tugas tersimpan. */
+export const loadTasks = (): Task[] => {
   try {
     const raw = localStorage.getItem(KEYS.tasks);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? (parsed as Task[]) : [];
   } catch (error) {
     console.warn("Gagal memuat tugas:", error);
     return [];
   }
 };
 
-/**
- * Menyimpan daftar tugas.
- * @param {Array<object>} tasks
- * @returns {void}
- */
-export const saveTasks = (tasks) => {
+/** Menyimpan daftar tugas. */
+export const saveTasks = (tasks: Task[]): void => {
   try {
     localStorage.setItem(KEYS.tasks, JSON.stringify(tasks));
   } catch (error) {
@@ -38,11 +32,8 @@ export const saveTasks = (tasks) => {
   }
 };
 
-/**
- * Membaca tema tersimpan.
- * @returns {"light" | "dark" | null}
- */
-export const loadTheme = () => {
+/** Membaca tema tersimpan. */
+export const loadTheme = (): Theme | null => {
   try {
     const value = localStorage.getItem(KEYS.theme);
     return value === "light" || value === "dark" ? value : null;
@@ -51,12 +42,8 @@ export const loadTheme = () => {
   }
 };
 
-/**
- * Menyimpan pilihan tema.
- * @param {"light" | "dark"} theme
- * @returns {void}
- */
-export const saveTheme = (theme) => {
+/** Menyimpan pilihan tema. */
+export const saveTheme = (theme: Theme): void => {
   try {
     localStorage.setItem(KEYS.theme, theme);
   } catch (error) {

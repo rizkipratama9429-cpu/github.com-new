@@ -3,41 +3,28 @@
  * @module main
  */
 import "./style.css";
-import * as store from "./storage.js";
-import * as tasksApi from "./tasks.js";
-import { applyTheme, render } from "./render.js";
+import type { Filter, Task } from "./types";
+import * as store from "./storage";
+import * as tasksApi from "./tasks";
+import { applyTheme, render, type Handlers, type Refs } from "./render";
 
-/** @type {import("./render.js").Refs} */
-const refs = {
-  form: document.querySelector("#task-form"),
-  input: document.querySelector("#task-input"),
-  due: document.querySelector("#task-due"),
-  list: document.querySelector("#tasks"),
-  counter: document.querySelector("#counter"),
-  empty: document.querySelector("#empty"),
-  filters: document.querySelector("#filters"),
-  clearBtn: document.querySelector("#clear-completed"),
-  themeToggle: document.querySelector("#theme-toggle"),
+const refs: Refs = {
+  form: document.querySelector<HTMLFormElement>("#task-form")!,
+  input: document.querySelector<HTMLInputElement>("#task-input")!,
+  due: document.querySelector<HTMLInputElement>("#task-due")!,
+  list: document.querySelector<HTMLElement>("#tasks")!,
+  counter: document.querySelector<HTMLElement>("#counter")!,
+  empty: document.querySelector<HTMLElement>("#empty")!,
+  filters: document.querySelector<HTMLElement>("#filters")!,
+  clearBtn: document.querySelector<HTMLButtonElement>("#clear-completed")!,
+  themeToggle: document.querySelector<HTMLButtonElement>("#theme-toggle")!,
 };
 
-/** @type {import("./tasks.js").Task[]} */
-let tasks = store.loadTasks();
-/** @type {import("./tasks.js").Filter} */
-let filter = "semua";
-/** @type {string | null} */
-let draggedId = null;
+let tasks: Task[] = store.loadTasks();
+let filter: Filter = "semua";
+let draggedId: string | null = null;
 
-/** Simpan ke localStorage lalu gambar ulang. */
-const commit = () => {
-  store.saveTasks(tasks);
-  paint();
-};
-
-/** Gambar ulang tampilan dari state saat ini. */
-const paint = () => render(refs, { tasks, filter }, handlers);
-
-/** @type {import("./render.js").Handlers} */
-const handlers = {
+const handlers: Handlers = {
   onToggle: (id) => {
     tasks = tasksApi.toggleTask(tasks, id);
     commit();
@@ -64,6 +51,17 @@ const handlers = {
   },
 };
 
+/** Gambar ulang tampilan dari state saat ini. */
+function paint(): void {
+  render(refs, { tasks, filter }, handlers);
+}
+
+/** Simpan ke localStorage lalu gambar ulang. */
+function commit(): void {
+  store.saveTasks(tasks);
+  paint();
+}
+
 refs.form.addEventListener("submit", (event) => {
   event.preventDefault();
   tasks = tasksApi.addTask(tasks, refs.input.value, refs.due.value || null);
@@ -74,9 +72,9 @@ refs.form.addEventListener("submit", (event) => {
 });
 
 refs.filters.addEventListener("click", (event) => {
-  const button = event.target.closest(".filters__btn");
+  const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".filters__btn");
   if (!button) return;
-  filter = /** @type {import("./tasks.js").Filter} */ (button.dataset.filter);
+  filter = button.dataset.filter as Filter;
   for (const child of refs.filters.children) {
     child.classList.toggle("is-active", child === button);
   }

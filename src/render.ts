@@ -1,19 +1,41 @@
 /**
  * Lapisan tampilan: mengubah state menjadi DOM.
- * Modul ini hanya berbicara ke DOM; semua perhitungan diambil dari ./tasks.js.
+ * Modul ini hanya berbicara ke DOM; semua perhitungan diambil dari ./tasks.
  * @module render
  */
-import { formatDue, isOverdue } from "./utils.js";
-import { hasCompleted, remainingCount, visibleTasks } from "./tasks.js";
+import type { Filter, Task, Theme } from "./types";
+import { formatDue, isOverdue } from "./utils";
+import { hasCompleted, remainingCount, visibleTasks } from "./tasks";
 
-/**
- * Membuat elemen dengan class dan teks opsional.
- * @param {string} tag
- * @param {string} [className]
- * @param {string} [text]
- * @returns {HTMLElement}
- */
-const el = (tag, className, text) => {
+/** Elemen-elemen DOM yang dipakai aplikasi. */
+export interface Refs {
+  form: HTMLFormElement;
+  input: HTMLInputElement;
+  due: HTMLInputElement;
+  list: HTMLElement;
+  counter: HTMLElement;
+  empty: HTMLElement;
+  filters: HTMLElement;
+  clearBtn: HTMLButtonElement;
+  themeToggle: HTMLButtonElement;
+}
+
+/** Aksi yang dipicu oleh interaksi pengguna. */
+export interface Handlers {
+  onToggle: (id: string) => void;
+  onRemove: (id: string) => void;
+  onRename: (id: string, text: string) => void;
+  onDragStart: (id: string) => void;
+  onDragEnd: () => void;
+  onDrop: (id: string) => void;
+}
+
+/** Membuat elemen dengan class dan teks opsional. */
+const el = <K extends keyof HTMLElementTagNameMap>(
+  tag: K,
+  className?: string,
+  text?: string,
+): HTMLElementTagNameMap[K] => {
   const node = document.createElement(tag);
   if (className) node.className = className;
   if (text !== undefined) node.textContent = text;
@@ -21,24 +43,10 @@ const el = (tag, className, text) => {
 };
 
 /**
- * @typedef {object} Handlers
- * @property {(id: string) => void} onToggle
- * @property {(id: string) => void} onRemove
- * @property {(id: string, text: string) => void} onRename
- * @property {(id: string) => void} onDragStart
- * @property {() => void} onDragEnd
- * @property {(id: string) => void} onDrop
- */
-
-/**
  * Mengaktifkan mode ubah-di-tempat pada satu tugas.
  * Enter menyimpan, Escape membatalkan, dan kehilangan fokus ikut menyimpan.
- * @param {HTMLElement} textEl
- * @param {import("./tasks.js").Task} task
- * @param {Handlers} handlers
- * @returns {void}
  */
-const startEdit = (textEl, task, handlers) => {
+const startEdit = (textEl: HTMLElement, task: Task, handlers: Handlers): void => {
   const parent = textEl.parentNode;
   if (!parent) return;
 
@@ -53,7 +61,7 @@ const startEdit = (textEl, task, handlers) => {
   edit.select?.();
 
   let finished = false;
-  const commit = (apply) => {
+  const commit = (apply: boolean): void => {
     if (finished) return;
     finished = true;
     handlers.onRename(task.id, apply ? edit.value : task.text);
@@ -71,13 +79,8 @@ const startEdit = (textEl, task, handlers) => {
   edit.addEventListener("blur", () => commit(true));
 };
 
-/**
- * Membangun satu elemen <li> tugas beserta seluruh interaksinya.
- * @param {import("./tasks.js").Task} task
- * @param {Handlers} handlers
- * @returns {HTMLLIElement}
- */
-export const buildTaskItem = (task, handlers) => {
+/** Membangun satu elemen <li> tugas beserta seluruh interaksinya. */
+export const buildTaskItem = (task: Task, handlers: Handlers): HTMLLIElement => {
   const item = el("li", "task");
   item.classList.toggle("is-done", task.done);
   item.classList.toggle("is-overdue", isOverdue(task));
@@ -142,27 +145,14 @@ export const buildTaskItem = (task, handlers) => {
   return item;
 };
 
-/**
- * @typedef {object} Refs
- * @property {HTMLFormElement} form
- * @property {HTMLInputElement} input
- * @property {HTMLInputElement} due
- * @property {HTMLElement} list
- * @property {HTMLElement} counter
- * @property {HTMLElement} empty
- * @property {HTMLElement} filters
- * @property {HTMLButtonElement} clearBtn
- * @property {HTMLButtonElement} themeToggle
- */
+/** State minimal yang dibutuhkan untuk menggambar tampilan. */
+export interface ViewState {
+  tasks: Task[];
+  filter: Filter;
+}
 
-/**
- * Menggambar ulang seluruh daftar (daftar tugas, penghitung, pesan kosong).
- * @param {Refs} refs
- * @param {{ tasks: import("./tasks.js").Task[], filter: import("./tasks.js").Filter }} state
- * @param {Handlers} handlers
- * @returns {void}
- */
-export const render = (refs, state, handlers) => {
+/** Menggambar ulang seluruh daftar (daftar tugas, penghitung, pesan kosong). */
+export const render = (refs: Refs, state: ViewState, handlers: Handlers): void => {
   const items = visibleTasks(state.tasks, state.filter);
   refs.list.replaceChildren(...items.map((task) => buildTaskItem(task, handlers)));
 
@@ -180,13 +170,8 @@ export const render = (refs, state, handlers) => {
   refs.clearBtn.hidden = !hasCompleted(state.tasks);
 };
 
-/**
- * Menerapkan tema ke <html> dan memperbarui ikon tombolnya.
- * @param {"light" | "dark"} theme
- * @param {HTMLButtonElement | null} [toggle]
- * @returns {void}
- */
-export const applyTheme = (theme, toggle) => {
+/** Menerapkan tema ke <html> dan memperbarui ikon tombolnya. */
+export const applyTheme = (theme: Theme, toggle?: HTMLButtonElement | null): void => {
   document.documentElement.dataset.theme = theme;
   if (!toggle) return;
   toggle.textContent = theme === "light" ? "☀️" : "🌙";
