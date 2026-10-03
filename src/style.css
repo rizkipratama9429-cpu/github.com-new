@@ -1,0 +1,425 @@
+/* Gaya "era modern": cascade layers, CSS nesting, container queries, dan
+   satuan relatif container (cqi). Diproses oleh Lightning CSS saat build. */
+@layer reset, tokens, base, components, utilities;
+
+/* ------------------------------------------------------------------ tokens */
+@layer tokens {
+  :root {
+    color-scheme: dark;
+    --bg: #0f172a;
+    --bg-glow: #1e293b;
+    --surface: #1e293b;
+    --surface-2: #273449;
+    --border: rgb(148 163 184 / 15%);
+    --border-strong: rgb(148 163 184 / 30%);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --danger: #f87171;
+    --radius: 12px;
+    --shadow: 0 12px 32px rgb(0 0 0 / 35%);
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef2f7;
+    --bg-glow: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --border: rgb(15 23 42 / 12%);
+    --border-strong: rgb(15 23 42 / 22%);
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --danger: #dc2626;
+    --shadow: 0 12px 32px rgb(15 23 42 / 12%);
+  }
+}
+
+/* ------------------------------------------------------------------- reset */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+  }
+}
+
+/* -------------------------------------------------------------------- base */
+@layer base {
+  body {
+    min-height: 100dvh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(16px, 6vw, 48px) 16px;
+    background: radial-gradient(circle at 50% 0%, var(--bg-glow) 0%, var(--bg) 60%);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* -------------------------------------------------------------- components */
+@layer components {
+  .app {
+    container: app / inline-size;
+    width: 100%;
+    max-width: 620px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+    box-shadow: var(--shadow);
+    padding: 28px;
+
+    .app__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+
+      h1 {
+        margin: 0;
+        font-size: 1.6rem;
+        letter-spacing: -0.02em;
+      }
+    }
+
+    .app__subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+  }
+
+  .theme-toggle {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.05s ease;
+
+    &:hover {
+      border-color: var(--border-strong);
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+}
+
+@layer components {
+  .task-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .task-form__input {
+      flex: 1 1 200px;
+      min-width: 0;
+      padding: 12px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 1rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+      &::placeholder {
+        color: var(--muted);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgb(99 102 241 / 25%);
+      }
+    }
+
+    .task-form__due {
+      padding: 12px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 0.95rem;
+
+      &:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgb(99 102 241 / 25%);
+      }
+    }
+
+    .task-form__button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: var(--radius);
+      background: var(--accent);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.05s ease;
+
+      &:hover {
+        background: var(--accent-hover);
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 20px 0 8px;
+    flex-wrap: wrap;
+
+    .counter {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  }
+
+  .filters {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+
+    .filters__btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+
+      &:hover {
+        color: var(--text);
+      }
+
+      &.is-active {
+        background: var(--accent);
+        color: #fff;
+      }
+    }
+  }
+
+  .hint {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+}
+
+@layer components {
+  .tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .task {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    transition: border-color 0.15s ease, opacity 0.15s ease;
+
+    &:hover {
+      border-color: var(--border-strong);
+    }
+
+    &.is-dragging {
+      opacity: 0.5;
+    }
+
+    &.is-drop-target {
+      border-color: var(--accent);
+    }
+
+    &.is-overdue {
+      border-color: var(--danger);
+
+      .task__due {
+        color: var(--danger);
+        font-weight: 600;
+      }
+    }
+
+    &.is-done .task__text {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .task__handle {
+      flex-shrink: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      cursor: grab;
+      user-select: none;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    .task__check {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .task__body {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .task__text {
+      cursor: text;
+      overflow-wrap: anywhere;
+    }
+
+    .task__due {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .task__edit {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgb(99 102 241 / 25%);
+      }
+    }
+
+    .task__icon {
+      flex-shrink: 0;
+      padding: 6px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+
+      &:hover {
+        background: var(--border);
+        color: var(--text);
+      }
+
+      &.task__icon--danger:hover {
+        background: rgb(248 113 113 / 14%);
+        color: var(--danger);
+      }
+    }
+  }
+
+  .empty {
+    margin: 16px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .app__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+
+    .link {
+      padding: 4px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--text);
+      }
+    }
+  }
+}
+
+/* ---------------------------------------------------------- container query */
+/* Ukuran mengikuti lebar kartu, bukan lebar layar — kartu bisa dipakai ulang
+   di mana saja tanpa bergantung pada viewport. */
+@container app (min-width: 460px) {
+  .task-form {
+    flex-wrap: nowrap;
+
+    .task-form__input {
+      flex: 1;
+    }
+  }
+}
+
+@container app (max-width: 380px) {
+  .app {
+    padding: 20px;
+  }
+
+  .toolbar {
+    justify-content: center;
+  }
+}
+
+/* ---------------------------------------------------------------- utilities */
+@layer utilities {
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}

@@ -4,7 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daftar Tugas — Project Belanin</title>
-  <link rel="stylesheet" href="style.css" />
+  <script>
+    // Terapkan tema sebelum CSS dimuat agar tidak "kedip".
+    try {
+      const saved = localStorage.getItem("project-belanin.theme");
+      document.documentElement.dataset.theme = saved === "light" ? "light" : "dark";
+    } catch {
+      document.documentElement.dataset.theme = "dark";
+    }
+  </script>
 </head>
 <body>
   <main class="app">
@@ -61,6 +69,6 @@
     </footer>
   </main>
 
-  <script src="app.js"></script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

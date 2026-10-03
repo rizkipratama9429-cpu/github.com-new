@@ -5,26 +5,45 @@ Repositori latihan untuk belajar scripting dan web dasar.
 Berisi dua bagian kecil:
 
 1. **`halo.py`** — skrip Python sederhana untuk menyapa pengguna.
-2. **Daftar Tugas** — aplikasi web interaktif (HTML/CSS/JS) untuk mencatat tugas.
+2. **Daftar Tugas** — aplikasi web interaktif untuk mencatat tugas, dibangun
+   dengan vanilla JavaScript modern (ES modules) + Vite dan CSS modern
+   (`@layer`, nesting, container queries).
 
 ## Struktur Proyek
 
 ```
 Project Belanin/
-├── halo.py        # Skrip sapaan Python sederhana
-├── index.html     # Halaman aplikasi "Daftar Tugas"
-├── style.css      # Tampilan aplikasi
-├── app.js         # Logika aplikasi (vanilla JavaScript)
+├── index.html         # Halaman "Daftar Tugas" (entry Vite)
+├── src/
+│   ├── main.js        # Titik masuk: menyambungkan state, DOM, localStorage
+│   ├── render.js      # Lapisan tampilan (state -> DOM)
+│   ├── tasks.js       # Logika murni daftar tugas (immutable, tanpa DOM)
+│   ├── storage.js     # Pembungkus localStorage
+│   ├── utils.js       # Utilitas ID & tanggal
+│   └── style.css      # CSS modern (@layer, nesting, container queries)
+├── vite.config.js     # Konfigurasi Vite + Lightning CSS
+├── package.json       # Skrip & dependensi
+├── halo.py            # Skrip sapaan Python sederhana
 ├── .gitignore
 └── README.md
 ```
 
 ## Menjalankan Aplikasi Web
 
-Tanpa build step dan tanpa dependensi — cukup buka file di browser:
+Aplikasi ini memakai **ES modules** dan CSS modern, sehingga butuh dev server
+kecil (Vite). Pasang dependensi sekali saja:
 
-- Klik dua kali `index.html`, **atau**
-- Klik kanan `index.html` lalu pilih **Open with Live Server** (jika ekstensi tersedia).
+```bash
+npm install
+```
+
+Lalu:
+
+```bash
+npm run dev      # server pengembangan (buka di browser otomatis)
+npm run build    # hasil produksi ke folder dist/
+npm run preview  # cek hasil build secara lokal
+```
 
 ### Fitur "Daftar Tugas"
 
