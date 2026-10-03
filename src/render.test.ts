@@ -125,7 +125,11 @@ describe("render", () => {
 
   it("memakai pesan berbeda saat filter tidak menghasilkan apa pun", () => {
     const r = refs();
-    render(r, { tasks: [{ id: "c", text: "C", done: false, due: null }], filter: "selesai" }, handlers());
+    render(
+      r,
+      { tasks: [{ id: "c", text: "C", done: false, due: null }], filter: "selesai" },
+      handlers(),
+    );
     expect(r.empty.textContent).toBe("Tidak ada tugas pada filter ini.");
   });
 });

@@ -1,74 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daftar Tugas — Project Belanin</title>
-  <script>
-    // Terapkan tema sebelum CSS dimuat agar tidak "kedip".
-    try {
-      const saved = localStorage.getItem("project-belanin.theme");
-      document.documentElement.dataset.theme = saved === "light" ? "light" : "dark";
-    } catch {
-      document.documentElement.dataset.theme = "dark";
-    }
-  </script>
-</head>
-<body>
-  <main class="app">
-    <header class="app__header">
-      <div>
-        <h1>Daftar Tugas</h1>
-        <p class="app__subtitle">Project Belanin</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Tugas — Project Belanin</title>
+    <script>
+      // Terapkan tema sebelum CSS dimuat agar tidak "kedip".
+      try {
+        const saved = localStorage.getItem("project-belanin.theme");
+        document.documentElement.dataset.theme = saved === "light" ? "light" : "dark";
+      } catch {
+        document.documentElement.dataset.theme = "dark";
+      }
+    </script>
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <div>
+          <h1>Daftar Tugas</h1>
+          <p class="app__subtitle">Project Belanin</p>
+        </div>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          type="button"
+          aria-label="Ganti tema"
+          title="Ganti tema"
+        >
+          🌙
+        </button>
+      </header>
+
+      <form class="task-form" id="task-form">
+        <input
+          type="text"
+          id="task-input"
+          class="task-form__input"
+          placeholder="Tulis tugas baru..."
+          autocomplete="off"
+          maxlength="120"
+          aria-label="Tugas baru"
+        />
+        <input type="date" id="task-due" class="task-form__due" aria-label="Tenggat (opsional)" />
+        <button type="submit" class="task-form__button">Tambah</button>
+      </form>
+
+      <div class="toolbar">
+        <div class="filters" id="filters" role="group" aria-label="Filter tugas">
+          <button class="filters__btn is-active" type="button" data-filter="semua">Semua</button>
+          <button class="filters__btn" type="button" data-filter="aktif">Aktif</button>
+          <button class="filters__btn" type="button" data-filter="selesai">Selesai</button>
+        </div>
+        <span class="counter" id="counter">0 tugas tersisa</span>
       </div>
-      <button
-        class="theme-toggle"
-        id="theme-toggle"
-        type="button"
-        aria-label="Ganti tema"
-        title="Ganti tema"
-      >🌙</button>
-    </header>
 
-    <form class="task-form" id="task-form">
-      <input
-        type="text"
-        id="task-input"
-        class="task-form__input"
-        placeholder="Tulis tugas baru..."
-        autocomplete="off"
-        maxlength="120"
-        aria-label="Tugas baru"
-      />
-      <input
-        type="date"
-        id="task-due"
-        class="task-form__due"
-        aria-label="Tenggat (opsional)"
-      />
-      <button type="submit" class="task-form__button">Tambah</button>
-    </form>
+      <p class="hint">Tip: klik ganda teks untuk mengubah, atau seret untuk mengurutkan.</p>
 
-    <div class="toolbar">
-      <div class="filters" id="filters" role="group" aria-label="Filter tugas">
-        <button class="filters__btn is-active" type="button" data-filter="semua">Semua</button>
-        <button class="filters__btn" type="button" data-filter="aktif">Aktif</button>
-        <button class="filters__btn" type="button" data-filter="selesai">Selesai</button>
-      </div>
-      <span class="counter" id="counter">0 tugas tersisa</span>
-    </div>
+      <ul class="tasks" id="tasks"></ul>
 
-    <p class="hint">Tip: klik ganda teks untuk mengubah, atau seret untuk mengurutkan.</p>
+      <p class="empty" id="empty">Belum ada tugas. Tambahkan satu di atas!</p>
 
-    <ul class="tasks" id="tasks"></ul>
+      <footer class="app__footer">
+        <button class="link" id="clear-completed" type="button" hidden>Hapus yang selesai</button>
+      </footer>
+    </main>
 
-    <p class="empty" id="empty">Belum ada tugas. Tambahkan satu di atas!</p>
-
-    <footer class="app__footer">
-      <button class="link" id="clear-completed" type="button" hidden>Hapus yang selesai</button>
-    </footer>
-  </main>
-
-  <script type="module" src="/src/main.ts"></script>
-</body>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>

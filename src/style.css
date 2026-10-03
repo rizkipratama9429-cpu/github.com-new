@@ -61,9 +61,15 @@
     padding: clamp(16px, 6vw, 48px) 16px;
     background: radial-gradient(circle at 50% 0%, var(--bg-glow) 0%, var(--bg) 60%);
     color: var(--text);
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-family:
+      "Segoe UI",
+      system-ui,
+      -apple-system,
+      sans-serif;
     line-height: 1.5;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
   }
 }
 
@@ -111,7 +117,9 @@
     font-size: 1.1rem;
     line-height: 1;
     cursor: pointer;
-    transition: border-color 0.15s ease, transform 0.05s ease;
+    transition:
+      border-color 0.15s ease,
+      transform 0.05s ease;
 
     &:hover {
       border-color: var(--border-strong);
@@ -138,7 +146,9 @@
       background: var(--surface-2);
       color: var(--text);
       font-size: 1rem;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
 
       &::placeholder {
         color: var(--muted);
@@ -175,7 +185,9 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s ease, transform 0.05s ease;
+      transition:
+        background 0.15s ease,
+        transform 0.05s ease;
 
       &:hover {
         background: var(--accent-hover);
@@ -217,7 +229,9 @@
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition:
+        background 0.15s ease,
+        color 0.15s ease;
 
       &:hover {
         color: var(--text);
@@ -255,7 +269,9 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--surface-2);
-    transition: border-color 0.15s ease, opacity 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      opacity 0.15s ease;
 
     &:hover {
       border-color: var(--border-strong);
@@ -347,7 +363,9 @@
       font-size: 0.95rem;
       line-height: 1;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition:
+        background 0.15s ease,
+        color 0.15s ease;
 
       &:hover {
         background: var(--border);

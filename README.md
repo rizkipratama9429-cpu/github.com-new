@@ -27,6 +27,9 @@ Project Belanin/
 │   └── main.test.ts    # Uji integrasi wiring aplikasi
 ├── vite.config.ts      # Konfigurasi Vite + Lightning CSS + Vitest
 ├── tsconfig.json       # Konfigurasi TypeScript
+├── eslint.config.js    # Aturan ESLint (flat config)
+├── .prettierrc.json    # Konfigurasi Prettier
+├── .github/workflows/  # CI: typecheck, lint, format, test, build
 ├── package.json        # Skrip & dependensi
 ├── halo.py             # Skrip sapaan Python sederhana
 ├── .gitignore
@@ -50,6 +53,8 @@ npm run build      # hasil produksi ke folder dist/
 npm run preview    # cek hasil build secara lokal
 npm run typecheck  # periksa tipe TypeScript
 npm test           # jalankan seluruh uji (Vitest)
+npm run lint       # periksa kode dengan ESLint
+npm run format     # rapikan format dengan Prettier
 ```
 
 ### Fitur "Daftar Tugas"
@@ -74,6 +79,15 @@ python halo.py
 ```
 
 Program akan meminta nama, lalu menampilkan pesan sapaan.
+
+## Kualitas Kode & CI
+
+- **ESLint** (`npm run lint`) — aturan JS + TypeScript.
+- **Prettier** (`npm run format`) — format kode yang seragam.
+- **TypeScript** (`npm run typecheck`) — memeriksa tipe.
+- **Vitest** (`npm test`) — uji otomatis (logika, tampilan, integrasi).
+- **GitHub Actions** (`.github/workflows/ci.yml`) menjalankan typecheck, lint,
+  format check, test, dan build pada setiap push maupun pull request ke `main`.
 
 ## Lisensi
 

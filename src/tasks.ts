@@ -57,8 +57,7 @@ export const visibleTasks = (tasks: Task[], filter: Filter): Task[] => {
 };
 
 /** Jumlah tugas yang belum selesai. */
-export const remainingCount = (tasks: Task[]): number =>
-  tasks.filter((task) => !task.done).length;
+export const remainingCount = (tasks: Task[]): number => tasks.filter((task) => !task.done).length;
 
 /** Apakah ada tugas yang sudah selesai? */
 export const hasCompleted = (tasks: Task[]): boolean => tasks.some((task) => task.done);
