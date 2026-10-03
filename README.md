@@ -1,5 +1,7 @@
 # Project Belanin
 
+[![CI](https://github.com/rizkipratama9429-cpu/github.com-new/actions/workflows/ci.yml/badge.svg)](https://github.com/rizkipratama9429-cpu/github.com-new/actions/workflows/ci.yml)
+
 Repositori latihan untuk belajar scripting dan web dasar.
 
 Berisi dua bagian kecil:
@@ -29,7 +31,9 @@ Project Belanin/
 ├── tsconfig.json       # Konfigurasi TypeScript
 ├── eslint.config.js    # Aturan ESLint (flat config)
 ├── .prettierrc.json    # Konfigurasi Prettier
+├── .husky/pre-commit   # Hook pra-commit (lint-staged)
 ├── .github/workflows/  # CI: typecheck, lint, format, test, build
+├── .github/dependabot.yml  # Pembaruan dependensi otomatis
 ├── package.json        # Skrip & dependensi
 ├── halo.py             # Skrip sapaan Python sederhana
 ├── .gitignore
@@ -86,8 +90,12 @@ Program akan meminta nama, lalu menampilkan pesan sapaan.
 - **Prettier** (`npm run format`) — format kode yang seragam.
 - **TypeScript** (`npm run typecheck`) — memeriksa tipe.
 - **Vitest** (`npm test`) — uji otomatis (logika, tampilan, integrasi).
+- **Husky + lint-staged** — hook pra-commit menjalankan ESLint & Prettier pada
+  berkas yang diubah sebelum commit.
 - **GitHub Actions** (`.github/workflows/ci.yml`) menjalankan typecheck, lint,
   format check, test, dan build pada setiap push maupun pull request ke `main`.
+- **Dependabot** (`.github/dependabot.yml`) — membuat PR pembaruan dependensi
+  secara berkala.
 
 ## Lisensi
 
